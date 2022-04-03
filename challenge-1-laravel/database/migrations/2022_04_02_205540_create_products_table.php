@@ -15,22 +15,24 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('article_number');
-            $table->string('article_name');
-            $table->string('manufacturer');
-            $table->text('description');
-            $table->text('article_information');
-            $table->string('gender');
-            $table->string('product_type');
-            $table->string('sleeves');
-            $table->string('legs');
-            $table->string('collar');
-            $table->string('manufacture');
-            $table->string('bag_type');
-            $table->string('grammage');
-            $table->string('material');
-            $table->string('country_of_origin');
-            $table->string('image_name');
+            //All the other fields are nullable because the CSV file contains all these blank fields
+            //We could make a condition in the import to not take articles that don't have 'article_number', for example
+            $table->text('article_number')->nullable();
+            $table->text('article_name')->nullable();
+            $table->text('manufacturer')->nullable();
+            $table->text('description')->nullable();
+            $table->text('article_information')->nullable();
+            $table->text('gender')->nullable();
+            $table->text('product_type')->nullable();
+            $table->text('sleeves')->nullable();
+            $table->text('legs')->nullable();
+            $table->text('collar')->nullable();
+            $table->text('manufacture')->nullable();
+            $table->text('bag_type')->nullable();
+            $table->text('grammage')->nullable();
+            $table->text('material')->nullable();
+            $table->text('country_of_origin')->nullable();
+            $table->string('image_name')->nullable();
             $table->timestamps();
         });
     }

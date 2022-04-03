@@ -16,6 +16,7 @@ class ProductsImport implements ToModel, WithCustomCsvSettings, WithUpserts
     */
     public function model(array $row)
     {
+        //A condition could be added for not choosing products which don't have an 'article_number'
         $product = new Product([
             'article_number'        => $row[0],
             'article_name'          => $row[1],
