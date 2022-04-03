@@ -1,12 +1,17 @@
 <?php
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use HasFactory;
+
+    //The table's name will be products
     protected $table = 'products';
 
+    //The fields susceptible of being filled will be these
     protected $fillable = [
         'article_number',
         'article_name',

@@ -4,8 +4,10 @@ namespace App\Imports;
 
 use App\Models\Product;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
+use Maatwebsite\Excel\Concerns\WithUpserts;
 
-class ProductsImport implements ToModel
+class ProductsImport implements ToModel, WithCustomCsvSettings, WithUpserts
 {
     /**
     * @param array $row
@@ -44,9 +46,10 @@ class ProductsImport implements ToModel
         ];
     }
 
+    //It will be unique by the article number (there won't be products with the same article number)
     public function uniqueBy()
     {
-        return 'reference';
+        return 'article_number';
     }
 
 }
