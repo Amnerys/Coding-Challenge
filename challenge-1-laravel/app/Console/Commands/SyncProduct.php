@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Imports\ProductsImport;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 //To run this command, type 'php artisan sync:product' on the command line
@@ -44,14 +43,11 @@ class SyncProduct extends Command
      */
     public function handle()
     {
-        //Storage::disk($this->localFile);
         ini_set('memory_limit', '-1');
         ini_set('max_execution_time', '300');
         Excel::import(new ProductsImport(), $this->localFile,null,
             \Maatwebsite\Excel\Excel::CSV);
 
-
         return Command::SUCCESS;
-
     }
 }
