@@ -21,27 +21,44 @@ class ProductController extends Controller
             ->with('i', (request()->input('page', 1)-1)*10);
     }
 
-    public function home(){
-        ini_set('memory_limit', '-1');
-        ini_set('max_execution_time', '300');
-        Excel::import(new ProductsImport(), 'Artikel.csv', null, \Maatwebsite\Excel\Excel::CSV);
-    }
-
     public function fileImportExport()
     {
         return view('file-import');
     }
 
+    /**
+     * Method to show import CSV
+     */
     public function fileImport(Request $request)
     {
-        //Excel::import(new ProductsImport(), $request->file('file')->store('local'));
-        Excel::import(new ProductsImport(), 'Artikel.csv', null, \Maatwebsite\Excel\Excel::CSV);
-        return back();
+        if($request->hasFile('file')){
+            Excel::import(new ProductsImport, $request->file('file')->store('local'));
+            $session = 'success';
+            return redirect()->back()->with($session,'CSV Imported Successfully!');
+        }else{
+            $session = 'error';
+            return redirect()->back()->with($session,'Invalid CSV');
+        }
     }
 
+    /**
+     * Method to show export CSV
+     */
     public function fileExport()
     {
         return Excel::download(new ProductsExport(), 'products-collection.csv');
     }
+
+    /**
+     * TODO: Method to show pie chart
+     */
+    public function showChart(){
+        $polyester = Product::where('material','Polyester')->get();
+
+        $polyester_count = count($polyester);
+
+        return view('chart',compact($polyester_count)); //This is a view that I would include to show the chart
+    }
+
 
 }

@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-
-    Route::get('file-import-export', [ProductController::class, 'fileImportExport']);
-    Route::post('file-import', [ProductController::class, 'fileImport'])->name('file-import');
-    Route::get('file-export', [ProductController::class, 'fileExport'])->name('file-export');
-
+    return view('file-import', [
+        'products' => App\Models\Product::first()->paginate(15)
+    ]);
 });
+
+Route::get('file-import-export', [ProductController::class, 'fileImportExport']);
+Route::post('file-import', [ProductController::class, 'fileImport'])->name('file-import');
+Route::get('file-export', [ProductController::class, 'fileExport'])->name('file-export');

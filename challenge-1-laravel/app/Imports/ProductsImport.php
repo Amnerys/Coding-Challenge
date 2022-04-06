@@ -5,9 +5,10 @@ namespace App\Imports;
 use App\Models\Product;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 
-class ProductsImport implements ToModel, WithCustomCsvSettings, WithUpserts
+class ProductsImport implements ToModel, WithCustomCsvSettings, WithUpserts, WithStartRow
 {
     /**
     * @param array $row
@@ -18,6 +19,7 @@ class ProductsImport implements ToModel, WithCustomCsvSettings, WithUpserts
     {
         //A condition could be added for not choosing products which don't have an 'article_number'
         $product = new Product([
+            'id',
             'article_number'        => $row[0],
             'article_name'          => $row[1],
             'manufacturer'          => $row[2],
@@ -43,7 +45,7 @@ class ProductsImport implements ToModel, WithCustomCsvSettings, WithUpserts
     public function getCsvSettings(): array
     {
         return [
-            'delimiter' => ","
+            'delimiter' => ";"
         ];
     }
 
@@ -53,4 +55,8 @@ class ProductsImport implements ToModel, WithCustomCsvSettings, WithUpserts
         return 'article_number';
     }
 
+    public function startRow(): int
+    {
+        return 2;
+    }
 }
